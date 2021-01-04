@@ -4,6 +4,7 @@
  
  
 """
+
 from os import listdir
 
 
@@ -71,6 +72,7 @@ def get_unfollowers(first, second):
 
     return list_to_string(unfollowers)
 
+
 def list_to_string(l):
 
     """Function to covert the lists into more readable strings"""
@@ -84,3 +86,9 @@ def list_to_string(l):
 
     return text
 
+
+def prep_data(PATH):
+    first, second = import_data(PATH)
+    first, second = files_to_lists(first, second)
+
+    return first, second

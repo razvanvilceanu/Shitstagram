@@ -1,7 +1,14 @@
+"""
+
+ Created by Razvan at 1/1/2021
+
+
+"""
+
 from selenium import webdriver
 from time import sleep
 from app.email_handle.email_handler import (get_contacts,
-                                        send_email)
+                                            send_email)
 from app.compare_last_files import (import_data,
                                     files_to_lists,
                                     get_unfollowers,
@@ -10,20 +17,24 @@ import datetime
 import os
 
 
-
 class InstaBot:
 
-    def __init__(self, usr, email_password = input("Enter your email password: "), instagram_password=input("Enter your Instagram password: "), sender=input("Enter your email address: ")):
-            self.email_sender = sender
-            self.email_password = email_password
-            self.instagram_passowrd = instagram_password
-            self.usr = usr
+
+    def __init__(self, usr=input("Instagram username: "), sender=input("Enter your email address: "),
+                 instagram_password=input("Enter your Instagram password: "),
+                 email_password=input("Enter your email password: ")):
+
+        """Init function. Takes all the variables needed to operate the bot."""
+
+        self.email_sender = sender
+        self.email_password = email_password
+        self.instagram_passowrd = instagram_password
+        self.usr = usr
 
 
     def start_scraping(self):
 
-        """Init function. Takes the bot from opening the browser to getting and saving the followers"""
-
+        """Function to start the scrape."""
 
         self.driver = webdriver.Firefox()
         self.driver.get("https://instagram.com")
@@ -33,11 +44,13 @@ class InstaBot:
         sleep(3)
 
         self.driver.find_element_by_xpath(
-            "/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div/label/input").send_keys(self.usr)
+            "/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[1]/div/label/input").send_keys(
+            self.usr)
         sleep(3)
 
         self.driver.find_element_by_xpath(
-            "/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[2]/div/label/input").send_keys(self.instagram_passowrd)
+            "/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[2]/div/label/input").send_keys(
+            self.instagram_passowrd)
         sleep(3)
 
         self.driver.find_element_by_xpath(
@@ -45,9 +58,9 @@ class InstaBot:
         sleep(3)
 
         self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/div/div/div/button").click()
-        sleep(3)
+        sleep(5)
 
-        self.driver.find_element_by_xpath("/html/body/div[4]/div/div/div/div[3]/button[2]").click()
+        self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div/div[3]/button[2]").click()
         sleep(3)
 
         self.driver.find_element_by_xpath(
@@ -57,7 +70,6 @@ class InstaBot:
         self.driver.find_element_by_xpath(
             "/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div/div[2]/div/div/div/div").click()
         sleep(3)
-
 
 
     def get_followers(self):
@@ -103,14 +115,15 @@ class InstaBot:
         now = datetime.datetime.now()
         now = now.strftime("%Y-%m-%d-%H-%M")
 
-
-        if not os.path.exists(os.path.join(os.getcwd(), '..//data' ,str(self.usr))):
+        if not os.path.exists(os.path.join(os.getcwd(), '..//data', str(self.usr))):
             os.makedirs('../data/' + self.usr)
 
         with open('../data/{}/'.format(self.usr) + now + '.txt', 'w') as file:
             file.write("Followers: " + str(len(self.followers)) + "\n")
             for e in self.followers:
                 file.write(e + "\n")
+
+        return None
 
 
     def complete_tour(self):
@@ -129,4 +142,3 @@ class InstaBot:
         names, emails = get_contacts('email_handle/email_list')
         for e in range(len(names)):
             send_email(followers, unfollowers, emails[e], self.usr, self.email_password, self.email_sender)
-
