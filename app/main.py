@@ -9,5 +9,5 @@ from insta_scraper import InstaBot
 
 
 if __name__ == "__main__":
-    bot = InstaBot(input("Instagram username: "))
+    bot = InstaBot()
     bot.complete_tour()

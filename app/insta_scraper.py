@@ -20,9 +20,9 @@ import os
 class InstaBot:
 
 
-    def __init__(self, usr=input("Instagram username: "), sender=input("Enter your email address: "),
-                 instagram_password=input("Enter your Instagram password: "),
-                 email_password=input("Enter your email password: ")):
+    def __init__(self, usr, sender,
+                 instagram_password,
+                 email_password):
 
         """Init function. Takes all the variables needed to operate the bot."""
 
@@ -57,7 +57,7 @@ class InstaBot:
             "/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div/div[3]/button/div").click()
         sleep(3)
 
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/div/div/div/button").click()
+        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/div/div/div").click()
         sleep(5)
 
         self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div/div[3]/button[2]").click()

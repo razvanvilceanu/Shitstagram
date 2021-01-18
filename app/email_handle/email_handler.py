@@ -5,7 +5,8 @@
 
 """
 
-import smtplib, ssl
+import smtplib
+import ssl
 import datetime
 from email.mime.text import MIMEText
 
@@ -47,7 +48,7 @@ def send_email(followers, unfollowers, receiver, receiver_name, password, sender
     This message was generated&sent from ShitstaBot!
     Buh'bye
     """.format(receiver_name, followers, unfollowers)
-    print("Sent email: \n" ,content)
+    print("Sent email: \n", content)
     msg = MIMEText(content, text_subtype)
 
     context = ssl.create_default_context()
